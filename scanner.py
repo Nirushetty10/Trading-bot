@@ -16,17 +16,17 @@ import numpy as np
 import pytz
 from loguru import logger
 
-from backend.config import (
+from config import (
     INSTRUMENTS, SCAN_INTERVAL_SEC, HARD_EXIT_TIME,
     MARKET_OPEN, MARKET_CLOSE, EMA_PERIOD, VIX_MIN_BUY, VIX_MAX_BUY,
     DEFAULT_PAPER_TRADE,
 )
-from backend.angel_api import angel
-from backend.indicators import (
+from angel_api import angel
+from indicators import (
     ema, atr, vwap, get_pdh_pdl, calculate_cpr, calculate_orb,
     detect_pdh_breakout, detect_ema_pullback, detect_orb_breakout,
 )
-from backend.risk_manager import risk_manager, Position
+from risk_manager import risk_manager, Position
 
 IST = pytz.timezone("Asia/Kolkata")
 
@@ -79,7 +79,7 @@ def is_market_open() -> bool:
 
 def is_trading_window() -> bool:
     now = ist_now().time()
-    from backend.config import PRIME_ENTRY_START, SECOND_ENTRY_END
+    from config import PRIME_ENTRY_START, SECOND_ENTRY_END
     return PRIME_ENTRY_START <= now <= SECOND_ENTRY_END
 
 def should_exit_all() -> bool:
@@ -219,7 +219,7 @@ async def run_banknifty_strategy(df: pd.DataFrame) -> Optional[dict]:
 
     # Update ORB window (9:15–9:45) — only calculate once after 9:45
     now_time = ist_now().time()
-    from backend.config import ORB_END
+    from config import ORB_END
     if now_time >= ORB_END and not state.orb.get(instrument, {}).get("valid"):
         orb = calculate_orb(df, today)
         state.orb[instrument] = orb

@@ -15,10 +15,10 @@ from datetime import datetime
 from loguru import logger
 import os
 
-from backend.angel_api import angel
-from backend.risk_manager import risk_manager
-from backend.scanner import state, start_scanner, stop_scanner, set_paper_mode
-import backend.config as cfg
+from angel_api import angel
+from risk_manager import risk_manager
+from scanner import state, start_scanner, stop_scanner, set_paper_mode
+import config as cfg
 
 # ── App setup ─────────────────────────────────────────────────────────────────
 app = FastAPI(title="AlgoOptions India", version="2.0.0")

@@ -94,7 +94,7 @@ class Position:
 
 class RiskManager:
     def __init__(self):
-        from backend.config import (
+        from config import (
             CAPITAL_PER_TRADE, MAX_DAILY_LOSS, MAX_POSITIONS,
             MAX_TRADES_PER_DAY, SL_PCT_OPTION, TARGET1_PCT, TARGET2_PCT,
             TRAIL_FACTOR

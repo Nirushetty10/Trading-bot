@@ -112,7 +112,7 @@ def calculate_orb(df: pd.DataFrame, today: date) -> dict:
     mid      = (orb_high + orb_low) / 2
     rng_pct  = (orb_high - orb_low) / mid
 
-    from backend.config import ORB_MIN_RANGE_PCT, ORB_MAX_RANGE_PCT
+    from config import ORB_MIN_RANGE_PCT, ORB_MAX_RANGE_PCT
     valid = ORB_MIN_RANGE_PCT <= rng_pct <= ORB_MAX_RANGE_PCT
 
     return {
@@ -186,7 +186,7 @@ def score_pdh_cpr_setup(
             score += 15
             reasons.append(f"Volume surge {volume/avg_volume:.1f}x avg")
 
-    from backend.config import MIN_SETUP_SCORE
+    from config import MIN_SETUP_SCORE
     return {
         "score":    score,
         "reasons":  reasons,
@@ -205,7 +205,7 @@ def detect_pdh_breakout(
     Detect PDH breakout or PDL breakdown on today's 5-min candles.
     Requires candle CLOSE outside level (not just wick).
     """
-    from backend.config import PRIME_ENTRY_START, PRIME_ENTRY_END
+    from config import PRIME_ENTRY_START, PRIME_ENTRY_END
 
     results = []
     avg_vol = df_today["volume"].rolling(20).mean()
@@ -268,7 +268,7 @@ def detect_ema_pullback(
     Detect EMA20 pullback in an already trending market.
     Requires price touching EMA then bouncing with volume.
     """
-    from backend.config import PRIME_ENTRY_END, SECOND_ENTRY_START
+    from config import PRIME_ENTRY_END, SECOND_ENTRY_START
 
     for ts, row in df_today.iterrows():
         bar_time = ts.time() if hasattr(ts, 'time') else ts
@@ -317,7 +317,7 @@ def detect_orb_breakout(
     Detect ORB breakout on 5-min candles after 9:45 AM.
     Requires full candle close outside ORB, confirmed by VWAP alignment.
     """
-    from backend.config import ORB_END, PRIME_ENTRY_END, SECOND_ENTRY_START, SECOND_ENTRY_END
+    from config import ORB_END, PRIME_ENTRY_END, SECOND_ENTRY_START, SECOND_ENTRY_END
 
     if not orb.get("valid"):
         return None

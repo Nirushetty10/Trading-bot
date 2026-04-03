@@ -107,7 +107,7 @@ class AngelOneAPI:
         if self._sim_mode or not self.connected:
             return 14.5  # default neutral value
         try:
-            from backend.config import VIX_TOKEN
+            from config import VIX_TOKEN
             data = self.obj.ltpData("NSE", "India VIX", VIX_TOKEN)
             return float(data["data"]["ltp"])
         except Exception:
